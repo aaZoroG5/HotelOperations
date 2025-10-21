@@ -56,5 +56,22 @@ public class Room {
         return false;
     }
 
+    public void checkIn(){
+        if(this.isOccupied){
+            this.setOccupied(true);
+            this.setDirty(true);
+        }
+        else{
+            System.out.println("This room is occupied");
+        }
+    }
 
+    public void checkOut(){
+        this.cleanroom();
+        this.setOccupied(false);
+    }
+
+    public void cleanroom(){
+        this.setDirty(false);
+    }
 }

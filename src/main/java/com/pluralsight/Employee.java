@@ -61,10 +61,24 @@ public class Employee {
     //derived getters
     public double getTotalPay(){
         double standardPay = this.getHoursWorked() * this.getPayRate();
-        return standardPay;
+        double overtimePay = this.getOvertime() * 1.5;
+        return standardPay + overtimePay;
     }
 
     public int regularHours(){
+        if(this.getHoursWorked() > 40){
+            return 40;
+        }
         return this.getHoursWorked();
     }
+
+    public int getOvertime(){
+        //create an if statement that calculates the overtime hours
+        if(this.getHoursWorked() > 40){
+            return getHoursWorked() - 40;
+        }
+        return 0;
+    }
+
+
 }
