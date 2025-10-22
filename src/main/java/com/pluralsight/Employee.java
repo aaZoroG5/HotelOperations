@@ -1,15 +1,18 @@
 package com.pluralsight;
 
+import java.time.LocalDateTime;
+
 public class Employee {
 
     private int employeeId;
     private String name;
     private String department;
     private double payRate;
-    private int hoursWorked;
+    private double hoursWorked;
+    private double startTime;//added this property because its needed for the punchIn methods
 
     //create constructor
-    public Employee(int employeeId, String name, String department, double payRate, int hoursWorked) {
+    public Employee(int employeeId, String name, String department, double payRate, double hoursWorked) {
         this.employeeId = employeeId;
         this.name = name;
         this.department = department;
@@ -50,11 +53,11 @@ public class Employee {
         this.payRate = payRate;
     }
 
-    public int getHoursWorked() {
+    public double getHoursWorked() {
         return hoursWorked;
     }
 
-    public void setHoursWorked(int hoursWorked) {
+    public void setHoursWorked(double hoursWorked) {
         this.hoursWorked = hoursWorked;
     }
 
@@ -65,20 +68,42 @@ public class Employee {
         return standardPay + overtimePay;
     }
 
-    public int regularHours(){
+    public double regularHours(){
         if(this.getHoursWorked() > 40){
             return 40;
         }
         return this.getHoursWorked();
     }
 
-    public int getOvertime(){
+    public double getOvertime(){
         //create an if statement that calculates the overtime hours
         if(this.getHoursWorked() > 40){
             return getHoursWorked() - 40;
         }
         return 0;
     }
+    //this method starts the time
+    public void punchIn(double time){
+        this.startTime = time;
+    }
 
+    public void punchOut(double time){
+        this.hoursWorked += time - this.startTime;//intelliJ gave me a suggestion to change my datatype for hoursWorked, from int to double, to stay consistent
+    }
 
+    //overloading methods that uses current time
+    public void punchIn(){
+        LocalDateTime now = LocalDateTime.now();
+        double currentTime = now.getHour() + (now.getMinute()/60.0); //we are converting the minutes to correspond to fractional format, ex. 2:30 is converted to 14.5
+
+        this.punchIn(currentTime);
+    }
+
+    //overloading method
+    public void punchOut(){
+        LocalDateTime now = LocalDateTime.now();
+        double currentTime = now.getHour() + (now.getMinute()/60.0);
+
+        this.punchOut(currentTime);
+    }
 }
